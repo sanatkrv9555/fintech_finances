@@ -44,10 +44,18 @@ app.use(cors({
 
 app.use(express.json());
 
-// ✅ MongoDB connection
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch(err => console.error("❌ MongoDB connection error:", err));
+// // ✅ MongoDB connection
+// mongoose.connect(process.env.MONGO_URI)
+//   .then(() => console.log("✅ MongoDB connected"))
+//   .catch(err => console.error("❌ MongoDB connection error:", err));
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 15000, // 15 seconds timeout
+})
+.then(() => console.log("✅ MongoDB connected"))
+.catch((err) => console.error("❌ MongoDB error:", err));
+
 
 // ✅ API Routes
 app.use("/api/users", userRoutes);
